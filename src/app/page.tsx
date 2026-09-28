@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { AuthProvider, useAuth } from "@/lib/auth/AuthContext";
 import { HeaderNav, ConsoleMode } from "@/components/layout/HeaderNav";
 import { useTelemetryStore } from "@/lib/simulation/useTelemetryStore";
 import { ControllerDeskView } from "@/components/views/ControllerDeskView";
@@ -8,10 +9,20 @@ import { StationMasterView } from "@/components/views/StationMasterView";
 import { PassengerAppView } from "@/components/views/PassengerAppView";
 import { MlopsDiagnosticsView } from "@/components/views/MlopsDiagnosticsView";
 
-export default function Home() {
-  const [currentMode, setCurrentMode] = useState<ConsoleMode>("CONTROLLER");
+function MainAppContent() {
+  const { user } = useAuth();
+  const [currentMode, setCurrentMode] = useState<ConsoleMode>(
+    user?.role ? (user.role as ConsoleMode) : "CONTROLLER"
+  );
 
   const telemetry = useTelemetryStore();
+
+  // Sync mode with user role changes
+  React.useEffect(() => {
+    if (user?.role) {
+      setCurrentMode(user.role as ConsoleMode);
+    }
+  }, [user?.role]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAFC]">
@@ -23,7 +34,7 @@ export default function Home() {
         activeLocoCount={telemetry.activeLocoCount}
       />
 
-      {/* Main Console View Switcher */}
+      {/* Main Role-Tailored Console View */}
       <main className="flex-1 flex flex-col min-h-0 overflow-hidden">
         {currentMode === "CONTROLLER" && (
           <ControllerDeskView
@@ -66,5 +77,13 @@ export default function Home() {
         )}
       </main>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <AuthProvider>
+      <MainAppContent />
+    </AuthProvider>
   );
 }

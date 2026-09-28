@@ -1,26 +1,119 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-mono), "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  /* Brand & Surface Colors */
+  --color-canvas: #F8FAFC;
+  --color-surface-card: #FFFFFF;
+  --color-surface-subtle: #F1F5F9;
+  --color-border-subtle: #E2E8F0;
+  --color-border-strong: #CBD5E1;
+
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94A3B8;
+
+  --color-ir-navy: #0F3875;
+  --color-ir-blue: #1E5AA8;
+  --color-ir-focus: #3B82F6;
+
+  /* Semantic Status Colors */
+  --color-ontime-bg: #ECFDF5;
+  --color-ontime-border: #A7F3D0;
+  --color-ontime-text: #065F46;
+
+  --color-minor-bg: #FFFBEB;
+  --color-minor-border: #FDE68A;
+  --color-minor-text: #92400E;
+
+  --color-significant-bg: #FFF7ED;
+  --color-significant-border: #FED7AA;
+  --color-significant-text: #9A3412;
+
+  --color-critical-bg: #FEF2F2;
+  --color-critical-border: #FECACA;
+  --color-critical-text: #991B1B;
+
+  --color-telemetry-bg: #EFF6FF;
+  --color-telemetry-border: #BFDBFE;
+  --color-telemetry-text: #1E40AF;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --surface-canvas: #F8FAFC;
+  --surface-card: #FFFFFF;
+  --surface-subtle: #F1F5F9;
+  --border-subtle: #E2E8F0;
+  --border-strong: #CBD5E1;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --brand-ir-navy: #0F3875;
+  --brand-ir-blue: #1E5AA8;
+  --brand-focus: #3B82F6;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--surface-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}
+
+/* Custom Micro-Animations */
+@keyframes radar-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes ping-ripple {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(30, 90, 168, 0.5);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(30, 90, 168, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(30, 90, 168, 0);
+  }
+}
+
+.animate-radar {
+  animation: radar-pulse 2s infinite cubic-bezier(0, 0, 0.2, 1);
+}
+
+.animate-ping-ripple {
+  animation: ping-ripple 1.5s infinite ease-out;
+}
+
+/* Custom Scrollbars for High Density Tables and Canvas Control Panels */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
 }

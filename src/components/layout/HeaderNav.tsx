@@ -15,6 +15,8 @@ import {
   ChevronDown,
   Building2,
   Lock,
+  Menu,
+  X,
 } from "lucide-react";
 import { LiveGPSBadge } from "@/components/ui/LiveGPSBadge";
 import { useAuth, UserRole } from "@/lib/auth/AuthContext";
@@ -38,6 +40,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
   const { user, logout, showLoginModal, setShowLoginModal, loginAsRole } = useAuth();
   const [timeStr, setTimeStr] = useState<string>("");
   const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const updateTime = () => {
@@ -60,30 +63,30 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
     <>
       <header className="sticky top-0 z-40 bg-[#0F3875] text-white border-b border-[#1E5AA8] shadow-md font-sans">
         {/* Top Application Bar */}
-        <div className="max-w-[1920px] mx-auto px-4 h-14 flex items-center justify-between">
+        <div className="max-w-[1920px] mx-auto px-3 md:px-4 h-14 flex items-center justify-between">
           {/* Left Branding */}
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center font-bold text-lg text-white">
-              <Train className="w-5 h-5 text-[#60A5FA]" />
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center font-bold text-lg text-white shrink-0">
+              <Train className="w-4 h-4 md:w-5 md:h-5 text-[#60A5FA]" />
             </div>
 
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="font-outfit font-extrabold text-base tracking-wide text-white">
-                  RAILVISTA <span className="font-normal text-white/70 text-sm">| Indian Railways</span>
+              <div className="flex items-center gap-1.5 md:gap-2">
+                <h1 className="font-outfit font-extrabold text-sm md:text-base tracking-wide text-white">
+                  RAILVISTA <span className="font-normal text-white/70 text-xs md:text-sm hidden xs:inline">| Indian Railways</span>
                 </h1>
-                <span className="bg-[#1E5AA8] text-white/90 text-[10px] font-mono px-1.5 py-0.5 rounded uppercase tracking-wider font-bold">
-                  SRS-IR-2026
+                <span className="bg-[#1E5AA8] text-white/90 text-[9px] md:text-[10px] font-mono px-1.5 py-0.5 rounded uppercase font-bold">
+                  SIH-2026
                 </span>
               </div>
-              <p className="text-[11px] text-blue-200/80 font-mono truncate max-w-[220px] sm:max-w-none">
+              <p className="text-[10px] md:text-[11px] text-blue-200/80 font-mono truncate max-w-[160px] xs:max-w-[220px] sm:max-w-none">
                 Corridor: {activeCorridor}
               </p>
             </div>
           </div>
 
-          {/* Center Live Telemetry & Digital Clock */}
-          <div className="hidden md:flex items-center gap-4 bg-black/20 px-3 py-1 rounded-[6px] border border-white/10">
+          {/* Center Live Telemetry & Digital Clock (Desktop Only) */}
+          <div className="hidden lg:flex items-center gap-4 bg-black/20 px-3 py-1 rounded-[6px] border border-white/10">
             <div className="flex items-center gap-2 text-xs font-mono text-blue-100">
               <Clock className="w-3.5 h-3.5 text-[#60A5FA]" />
               <span className="font-bold">{timeStr || "14:23:18 IST"}</span>
@@ -93,15 +96,15 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
 
             <LiveGPSBadge isLive={true} fixQuality="GAGAN_DIFFERENTIAL" lastSyncSec={12} />
 
-            <span className="text-xs font-mono text-blue-200/90 hidden lg:inline">
+            <span className="text-xs font-mono text-blue-200/90">
               Active Locos: <span className="font-bold text-white">{activeLocoCount}</span>
             </span>
           </div>
 
           {/* Right Role Switcher & User Profile Dropdown */}
-          <div className="flex items-center gap-3">
-            {/* Persona Quick Mode Switcher */}
-            <div className="flex items-center gap-1 bg-black/30 p-1 rounded-[6px] border border-white/10">
+          <div className="flex items-center gap-2">
+            {/* Persona Quick Mode Switcher (Desktop/Tablet) */}
+            <div className="hidden md:flex items-center gap-1 bg-black/30 p-1 rounded-[6px] border border-white/10">
               <button
                 onClick={() => {
                   onModeChange("PASSENGER");
@@ -114,7 +117,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 }`}
               >
                 <Smartphone className="w-3.5 h-3.5 text-[#60A5FA]" />
-                <span className="hidden sm:inline">Passenger</span>
+                <span>Passenger</span>
               </button>
 
               <button
@@ -129,7 +132,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 }`}
               >
                 <LayoutDashboard className="w-3.5 h-3.5 text-[#60A5FA]" />
-                <span className="hidden sm:inline">Controller</span>
+                <span>Controller</span>
               </button>
 
               <button
@@ -144,7 +147,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 }`}
               >
                 <Building2 className="w-3.5 h-3.5 text-[#60A5FA]" />
-                <span className="hidden sm:inline">Station Master</span>
+                <span>Station Master</span>
               </button>
 
               <button
@@ -159,7 +162,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 }`}
               >
                 <Activity className="w-3.5 h-3.5 text-[#60A5FA]" />
-                <span className="hidden sm:inline">MLOps Admin</span>
+                <span>MLOps</span>
               </button>
             </div>
 
@@ -167,7 +170,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
             <div className="relative">
               <button
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
-                className="flex items-center gap-2 px-2.5 py-1 rounded-[6px] bg-white/10 border border-white/20 hover:bg-white/20 transition-all"
+                className="flex items-center gap-1.5 md:gap-2 px-2 md:px-2.5 py-1 rounded-[6px] bg-white/10 border border-white/20 hover:bg-white/20 transition-all"
               >
                 <div className="w-6 h-6 rounded-full bg-[#1E5AA8] text-white font-bold text-xs flex items-center justify-center border border-white/40 font-mono">
                   {user?.name ? user.name.charAt(0) : "P"}
@@ -220,8 +223,88 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
                 </div>
               )}
             </div>
+
+            {/* Mobile Hamburger Toggle Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-1.5 rounded bg-white/10 border border-white/20 text-white hover:bg-white/20"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Navigation Drawer Dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-[#0A264F] border-b border-[#1E5AA8] p-3 space-y-2 font-mono text-xs animate-fadeIn">
+            <div className="text-[11px] text-blue-200/80 mb-1">Select View Role:</div>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => {
+                  onModeChange("PASSENGER");
+                  if (user?.role !== "PASSENGER") loginAsRole("PASSENGER");
+                  setMobileMenuOpen(false);
+                }}
+                className={`flex items-center gap-2 p-2 rounded border ${
+                  currentMode === "PASSENGER"
+                    ? "bg-[#1E5AA8] text-white border-white/40 font-bold"
+                    : "bg-white/5 border-white/10 text-blue-100"
+                }`}
+              >
+                <Smartphone className="w-4 h-4 text-[#60A5FA]" />
+                <span>Passenger App</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  onModeChange("CONTROLLER");
+                  if (user?.role !== "CONTROLLER") loginAsRole("CONTROLLER");
+                  setMobileMenuOpen(false);
+                }}
+                className={`flex items-center gap-2 p-2 rounded border ${
+                  currentMode === "CONTROLLER"
+                    ? "bg-[#1E5AA8] text-white border-white/40 font-bold"
+                    : "bg-white/5 border-white/10 text-blue-100"
+                }`}
+              >
+                <LayoutDashboard className="w-4 h-4 text-[#60A5FA]" />
+                <span>Controller Desk</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  onModeChange("STATION_MASTER");
+                  if (user?.role !== "STATION_MASTER") loginAsRole("STATION_MASTER");
+                  setMobileMenuOpen(false);
+                }}
+                className={`flex items-center gap-2 p-2 rounded border ${
+                  currentMode === "STATION_MASTER"
+                    ? "bg-[#1E5AA8] text-white border-white/40 font-bold"
+                    : "bg-white/5 border-white/10 text-blue-100"
+                }`}
+              >
+                <Building2 className="w-4 h-4 text-[#60A5FA]" />
+                <span>Station Master</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  onModeChange("MLOPS");
+                  if (user?.role !== "MLOPS") loginAsRole("MLOPS");
+                  setMobileMenuOpen(false);
+                }}
+                className={`flex items-center gap-2 p-2 rounded border ${
+                  currentMode === "MLOPS"
+                    ? "bg-[#1E5AA8] text-white border-white/40 font-bold"
+                    : "bg-white/5 border-white/10 text-blue-100"
+                }`}
+              >
+                <Activity className="w-4 h-4 text-[#60A5FA]" />
+                <span>MLOps Admin</span>
+              </button>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Login Modal */}

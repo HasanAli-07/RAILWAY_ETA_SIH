@@ -74,7 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     // Load persisted session
-    const saved = localStorage.getItem("dtape_user_session");
+    const saved = localStorage.getItem("railvista_user_session");
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -90,13 +90,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const loginAsRole = (role: UserRole) => {
     const session = PRESET_USERS[role];
     setUser(session);
-    localStorage.setItem("dtape_user_session", JSON.stringify(session));
+    localStorage.setItem("railvista_user_session", JSON.stringify(session));
     setShowLoginModal(false);
   };
 
   const logout = () => {
     setUser(PRESET_USERS.PASSENGER); // Reset to public passenger view
-    localStorage.removeItem("dtape_user_session");
+    localStorage.removeItem("railvista_user_session");
     setShowLoginModal(true);
   };
 

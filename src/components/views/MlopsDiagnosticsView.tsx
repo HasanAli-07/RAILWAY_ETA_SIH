@@ -41,7 +41,7 @@ export const MlopsDiagnosticsView: React.FC<MlopsDiagnosticsViewProps> = ({
           <div className="flex items-center gap-2">
             <Activity className="w-5 h-5 text-[#0F3875]" />
             <h2 className="font-mono font-bold text-base text-[#0F172A]">
-              DTAPE MLOps Diagnostic Console & System Health (NFR-REL-01)
+              RAILVISTA MLOps Diagnostic Console & System Health (NFR-REL-01)
             </h2>
           </div>
           <p className="text-xs text-[#64748B] mt-0.5 font-mono">

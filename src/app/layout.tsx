@@ -18,7 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DTAPE | Dynamic Train Arrival Prediction Engine - Indian Railways",
+  title: "RAILVISTA | Dynamic Train Arrival Prediction Engine - Indian Railways",
   description:
     "Real-time event-driven spatio-temporal machine learning train arrival forecasting system for Indian Railways.",
 };

@@ -38,7 +38,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                 Select Operational Role / Login Portal
               </h2>
               <p className="text-xs text-blue-200/90 font-mono">
-                Indian Railways DTAPE Unified Access System (SRS-IR-ETA-2026)
+                Indian Railways RAILVISTA Unified Access System (SRS-IR-ETA-2026)
               </p>
             </div>
           </div>

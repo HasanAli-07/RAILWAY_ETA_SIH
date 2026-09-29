@@ -70,7 +70,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="font-outfit font-extrabold text-base tracking-wide text-white">
-                  DTAPE <span className="font-normal text-white/70 text-sm">| Indian Railways</span>
+                  RAILVISTA <span className="font-normal text-white/70 text-sm">| Indian Railways</span>
                 </h1>
                 <span className="bg-[#1E5AA8] text-white/90 text-[10px] font-mono px-1.5 py-0.5 rounded uppercase tracking-wider font-bold">
                   SRS-IR-2026

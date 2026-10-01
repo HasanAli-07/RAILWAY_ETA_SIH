@@ -43,8 +43,8 @@ export const ControllerDeskView: React.FC<ControllerDeskViewProps> = ({
 }) => {
   const [filterCategory, setFilterCategory] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [mobileTab, setMobileTab] = useState<"CHART" | "MAP" | "ROSTER" | "INSPECTOR">("CHART");
-  const [centerViewMode, setCenterViewMode] = useState<"CHART" | "MAP">("CHART");
+  const [mobileTab, setMobileTab] = useState<"CHART" | "MAP" | "SIGNALS" | "ROSTER" | "INSPECTOR">("CHART");
+  const [centerViewMode, setCenterViewMode] = useState<"CHART" | "MAP" | "SIGNALS">("CHART");
 
   const filteredTrains = trains.filter((t) => {
     const matchesSearch =
@@ -67,15 +67,43 @@ export const ControllerDeskView: React.FC<ControllerDeskViewProps> = ({
   const selectedTrain = trains.find((t) => t.id === selectedTrainId) || trains[0];
 
   return (
-    <div className="flex-1 flex flex-col p-2 sm:p-3 md:p-4 max-w-[1920px] mx-auto w-full min-h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-3.5rem)] overflow-y-auto lg:overflow-hidden">
+    <div className="flex-1 flex flex-col p-2 sm:p-3 md:p-4 max-w-[1920px] mx-auto w-full min-h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-3.5rem)] overflow-y-auto lg:overflow-hidden gap-3">
+      {/* Top Network Operations Summary Bar */}
+      <div className="bg-gradient-to-r from-[#0F3875] to-[#1E5AA8] text-white p-3 rounded-[8px] shadow-sm flex flex-wrap items-center justify-between gap-3 font-mono shrink-0">
+        <div className="flex items-center gap-2">
+          <div className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-ping" />
+          <span className="font-outfit font-extrabold text-sm tracking-wide">
+            NDLS - HWH TRUNK CORRIDOR OPERATIONS DESK
+          </span>
+          <span className="bg-white/10 px-2 py-0.5 rounded text-[10px] text-blue-200">
+            Delhi - Prayagraj - Howrah Division
+          </span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 text-xs">
+          <div className="bg-black/20 px-2.5 py-1 rounded border border-white/10">
+            Active Locos: <span className="font-bold text-[#60A5FA]">142</span>
+          </div>
+          <div className="bg-black/20 px-2.5 py-1 rounded border border-white/10">
+            Avg Speed: <span className="font-bold text-[#10B981]">118 km/h</span>
+          </div>
+          <div className="bg-black/20 px-2.5 py-1 rounded border border-white/10">
+            OTP SLA (&le; 5m): <span className="font-bold text-[#10B981]">94.2%</span>
+          </div>
+          <div className="bg-black/20 px-2.5 py-1 rounded border border-white/10 hidden sm:block">
+            ISRO RTIS Fix Rate: <span className="font-bold text-[#60A5FA]">99.4% GAGAN</span>
+          </div>
+        </div>
+      </div>
+
       {/* Mobile Tab Switcher (Visible on < 1024px viewports) */}
-      <div className="lg:hidden flex items-center gap-1 mb-2 bg-[#E2E8F0] p-1 rounded-[8px] text-xs font-mono shrink-0 shadow-inner">
+      <div className="lg:hidden flex items-center gap-1 bg-[#E2E8F0] p-1 rounded-[8px] text-xs font-mono shrink-0 shadow-inner overflow-x-auto">
         <button
           onClick={() => {
             setMobileTab("CHART");
             setCenterViewMode("CHART");
           }}
-          className={`flex-1 py-1.5 rounded-[6px] text-center font-bold transition-all flex items-center justify-center gap-1 ${
+          className={`px-3 py-1.5 rounded-[6px] text-center font-bold transition-all whitespace-nowrap ${
             mobileTab === "CHART" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569] hover:bg-white/50"
           }`}
         >
@@ -87,7 +115,7 @@ export const ControllerDeskView: React.FC<ControllerDeskViewProps> = ({
             setMobileTab("MAP");
             setCenterViewMode("MAP");
           }}
-          className={`flex-1 py-1.5 rounded-[6px] text-center font-bold transition-all flex items-center justify-center gap-1 ${
+          className={`px-3 py-1.5 rounded-[6px] text-center font-bold transition-all whitespace-nowrap ${
             mobileTab === "MAP" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569] hover:bg-white/50"
           }`}
         >
@@ -95,8 +123,20 @@ export const ControllerDeskView: React.FC<ControllerDeskViewProps> = ({
         </button>
 
         <button
+          onClick={() => {
+            setMobileTab("SIGNALS");
+            setCenterViewMode("SIGNALS");
+          }}
+          className={`px-3 py-1.5 rounded-[6px] text-center font-bold transition-all whitespace-nowrap ${
+            mobileTab === "SIGNALS" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569] hover:bg-white/50"
+          }`}
+        >
+          <span>🚥 Signals</span>
+        </button>
+
+        <button
           onClick={() => setMobileTab("ROSTER")}
-          className={`flex-1 py-1.5 rounded-[6px] text-center font-bold transition-all flex items-center justify-center gap-1 ${
+          className={`px-3 py-1.5 rounded-[6px] text-center font-bold transition-all whitespace-nowrap ${
             mobileTab === "ROSTER" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569] hover:bg-white/50"
           }`}
         >
@@ -105,7 +145,7 @@ export const ControllerDeskView: React.FC<ControllerDeskViewProps> = ({
 
         <button
           onClick={() => setMobileTab("INSPECTOR")}
-          className={`flex-1 py-1.5 rounded-[6px] text-center font-bold transition-all flex items-center justify-center gap-1 ${
+          className={`px-3 py-1.5 rounded-[6px] text-center font-bold transition-all whitespace-nowrap ${
             mobileTab === "INSPECTOR" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569] hover:bg-white/50"
           }`}
         >
@@ -219,10 +259,10 @@ export const ControllerDeskView: React.FC<ControllerDeskViewProps> = ({
           </div>
         </div>
 
-        {/* CENTER PANE: Dynamic String Chart vs GIS Live Map */}
+        {/* CENTER PANE: Dynamic String Chart vs GIS Live Map vs Automatic Block Signals */}
         <div
           className={`flex-1 min-w-0 flex-col h-full ${
-            mobileTab !== "CHART" && mobileTab !== "MAP" ? "hidden lg:flex" : "flex"
+            mobileTab !== "CHART" && mobileTab !== "MAP" && mobileTab !== "SIGNALS" ? "hidden lg:flex" : "flex"
           }`}
         >
           {/* Desktop Subnav Mode Switcher Bar */}
@@ -252,6 +292,17 @@ export const ControllerDeskView: React.FC<ControllerDeskViewProps> = ({
               >
                 <span>🗺️ Live GIS Leaflet Map</span>
               </button>
+
+              <button
+                onClick={() => setCenterViewMode("SIGNALS")}
+                className={`px-3 py-1 rounded-[6px] text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
+                  centerViewMode === "SIGNALS"
+                    ? "bg-[#0F3875] text-white shadow-sm"
+                    : "bg-white text-[#475569] hover:bg-[#F8FAFC] border border-[#CBD5E1]"
+                }`}
+              >
+                <span>🚥 Automatic Block Signals (ABS)</span>
+              </button>
             </div>
 
             <span className="text-[11px] font-mono text-[#64748B]">
@@ -260,7 +311,7 @@ export const ControllerDeskView: React.FC<ControllerDeskViewProps> = ({
           </div>
 
           {/* Conditional View Rendering */}
-          {centerViewMode === "CHART" && mobileTab !== "MAP" ? (
+          {centerViewMode === "CHART" && mobileTab !== "MAP" && mobileTab !== "SIGNALS" ? (
             <TimeDistanceChart
               trains={trains}
               stations={stations}
@@ -269,7 +320,7 @@ export const ControllerDeskView: React.FC<ControllerDeskViewProps> = ({
               activeDisruption={activeDisruption}
               onTriggerDisruption={onTriggerDisruption}
             />
-          ) : (
+          ) : centerViewMode === "MAP" || mobileTab === "MAP" ? (
             <CorridorMap
               trains={trains}
               stations={stations}
@@ -277,6 +328,49 @@ export const ControllerDeskView: React.FC<ControllerDeskViewProps> = ({
               onSelectTrain={onSelectTrain}
               activeDisruption={activeDisruption}
             />
+          ) : (
+            /* Automatic Block Signal (ABS) Inspector View */
+            <div className="flex-1 bg-white border border-[#E2E8F0] rounded-[8px] p-4 flex flex-col space-y-4 overflow-y-auto">
+              <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
+                <div>
+                  <h3 className="font-outfit font-extrabold text-base text-[#0F3875] flex items-center gap-2">
+                    <Radio className="w-5 h-5 text-[#1E5AA8]" />
+                    Automatic Block Signaling (ABS) & Track Block Inspector
+                  </h3>
+                  <p className="text-xs text-[#64748B] font-mono">
+                    Real-time 4-Aspect Signal States & Inter-Train Headway Compression Buffer
+                  </p>
+                </div>
+                <span className="text-xs font-mono bg-[#ECFDF5] text-[#065F46] font-bold px-2.5 py-1 rounded border border-[#A7F3D0]">
+                  ABS System Nominal
+                </span>
+              </div>
+
+              {/* Stations Signal Aspect Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {stations.map((st) => (
+                  <div key={st.code} className="bg-[#F8FAFC] border border-[#E2E8F0] p-3 rounded-[8px] space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono font-bold text-sm text-[#0F172A]">{st.name} ({st.code})</span>
+                      <span className={`w-3.5 h-3.5 rounded-full ${
+                        st.signalAspect === "GREEN"
+                          ? "bg-[#10B981] shadow-[0_0_8px_#10B981]"
+                          : st.signalAspect === "DOUBLE_YELLOW"
+                          ? "bg-[#F59E0B] shadow-[0_0_8px_#F59E0B]"
+                          : st.signalAspect === "SINGLE_YELLOW"
+                          ? "bg-[#EAB308] shadow-[0_0_8px_#EAB308]"
+                          : "bg-[#EF4444] shadow-[0_0_8px_#EF4444]"
+                      }`} />
+                    </div>
+                    <div className="text-xs font-mono text-[#64748B] space-y-1">
+                      <div>Aspect: <strong className="text-[#0F3875]">{st.signalAspect}</strong></div>
+                      <div>Yard Status: <strong className={st.yardStatus === "CLEAR" ? "text-[#10B981]" : "text-[#F59E0B]"}>{st.yardStatus}</strong></div>
+                      <div>Occupancy: <strong className="text-[#0F172A]">{st.occupiedPlatforms} / {st.platformCount} Platforms</strong></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
         </div>
 

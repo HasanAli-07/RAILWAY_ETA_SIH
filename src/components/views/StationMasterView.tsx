@@ -73,20 +73,20 @@ export const StationMasterView: React.FC<StationMasterViewProps> = ({
   );
 
   return (
-    <div className="flex-1 flex flex-col gap-3 md:gap-4 p-2 sm:p-4 max-w-[1920px] mx-auto w-full h-[calc(100vh-3.5rem)] overflow-y-auto lg:overflow-hidden bg-[#F8FAFC]">
+    <div className="flex-1 flex flex-col gap-3 md:gap-4 p-2 sm:p-4 max-w-[1920px] mx-auto w-full min-h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-3.5rem)] overflow-y-auto lg:overflow-hidden bg-[#F8FAFC]">
       {/* Top Station Ribbon */}
-      <div className="bg-white border border-[#E2E8F0] p-3 sm:p-4 rounded-[8px] shadow-sm flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+      <div className="bg-white border border-[#E2E8F0] p-3 sm:p-4 rounded-[8px] shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-3 w-full sm:w-auto">
           <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-[6px] bg-[#0F3875] text-white flex items-center justify-center font-bold shrink-0">
             <Building2 className="w-5 h-5 text-[#60A5FA]" />
           </div>
 
-          <div>
+          <div className="flex-1 sm:flex-initial min-w-0">
             <div className="flex items-center gap-2">
               <select
                 value={selectedStationCode}
                 onChange={(e) => onSelectStation(e.target.value)}
-                className="font-bold text-sm sm:text-base text-[#0F172A] bg-[#F1F5F9] border border-[#CBD5E1] px-2.5 py-1 rounded-[6px] focus:outline-none font-mono cursor-pointer max-w-[220px] sm:max-w-none"
+                className="font-bold text-xs sm:text-base text-[#0F172A] bg-[#F1F5F9] border border-[#CBD5E1] px-2 py-1 rounded-[6px] focus:outline-none font-mono cursor-pointer w-full sm:w-auto truncate"
               >
                 {stations.map((st) => (
                   <option key={st.code} value={st.code}>
@@ -95,25 +95,25 @@ export const StationMasterView: React.FC<StationMasterViewProps> = ({
                 ))}
               </select>
             </div>
-            <p className="text-[11px] sm:text-xs text-[#64748B] mt-0.5">
-              Code: <span className="font-mono font-bold text-[#0F172A]">{currentStation.code}</span> | Lat: {currentStation.latitude} N, Lon: {currentStation.longitude} E
+            <p className="text-[10px] sm:text-xs text-[#64748B] mt-0.5 font-mono truncate">
+              Code: <span className="font-bold text-[#0F172A]">{currentStation.code}</span> | Lat: {currentStation.latitude} N, Lon: {currentStation.longitude} E
             </p>
           </div>
         </div>
 
         {/* Station Stats */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs font-mono text-[#475569] w-full sm:w-auto">
-          <div className="bg-[#F8FAFC] border border-[#E2E8F0] px-2.5 py-1 rounded-[6px]">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-3 text-xs font-mono text-[#475569] w-full sm:w-auto justify-start sm:justify-end">
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] px-2 py-1 rounded-[6px] text-[11px] sm:text-xs">
             Platforms: <span className="font-bold text-[#0F172A]">{currentStation.platformCount}</span>
           </div>
 
-          <div className="bg-[#F8FAFC] border border-[#E2E8F0] px-2.5 py-1 rounded-[6px]">
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] px-2 py-1 rounded-[6px] text-[11px] sm:text-xs">
             Occupied: <span className="font-bold text-[#1E5AA8]">{currentStation.occupiedPlatforms} / {currentStation.platformCount}</span>
           </div>
 
-          <div className="bg-[#ECFDF5] border border-[#A7F3D0] text-[#065F46] px-2.5 py-1 rounded-[6px] flex items-center gap-1 font-bold">
+          <div className="bg-[#ECFDF5] border border-[#A7F3D0] text-[#065F46] px-2 py-1 rounded-[6px] flex items-center gap-1 font-bold text-[11px] sm:text-xs">
             <CheckCircle2 className="w-3.5 h-3.5 text-[#059669]" />
-            Yard Clearance: OK
+            Yard Clear: OK
           </div>
         </div>
       </div>
@@ -121,7 +121,7 @@ export const StationMasterView: React.FC<StationMasterViewProps> = ({
       {/* Main Responsive Split: Left Platform Grid vs Right Approach Zone */}
       <div className="flex-1 flex flex-col lg:flex-row gap-3 md:gap-4 min-h-0 overflow-y-auto lg:overflow-hidden">
         {/* LEFT: Platform Berthing Grid */}
-        <div className="flex-1 bg-white border border-[#E2E8F0] rounded-[8px] overflow-hidden shadow-sm flex flex-col min-h-[400px]">
+        <div className="flex-1 bg-white border border-[#E2E8F0] rounded-[8px] overflow-hidden shadow-sm flex flex-col min-h-[350px]">
           <div className="p-3 bg-[#F8FAFC] border-b border-[#E2E8F0] flex items-center justify-between">
             <h2 className="font-mono font-bold text-xs uppercase tracking-wider text-[#0F172A] flex items-center gap-2">
               <Train className="w-4 h-4 text-[#0F3875]" />

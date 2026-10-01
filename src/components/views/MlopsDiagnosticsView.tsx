@@ -34,26 +34,26 @@ export const MlopsDiagnosticsView: React.FC<MlopsDiagnosticsViewProps> = ({
   onToggleFallback,
 }) => {
   return (
-    <div className="flex-1 bg-[#F8FAFC] p-4 max-w-[1920px] mx-auto w-full h-[calc(100vh-3.5rem)] overflow-y-auto space-y-4">
+    <div className="flex-1 bg-[#F8FAFC] p-3 sm:p-4 md:p-6 max-w-[1920px] mx-auto w-full min-h-[calc(100vh-3.5rem)] overflow-y-auto space-y-4">
       {/* Top Header */}
-      <div className="bg-white border border-[#E2E8F0] p-4 rounded-[8px] shadow-sm flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white border border-[#E2E8F0] p-3 sm:p-4 rounded-[8px] shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <Activity className="w-5 h-5 text-[#0F3875]" />
-            <h2 className="font-mono font-bold text-base text-[#0F172A]">
+            <Activity className="w-5 h-5 text-[#0F3875] shrink-0" />
+            <h2 className="font-mono font-bold text-sm sm:text-base text-[#0F172A]">
               RAILVISTA MLOps Diagnostic Console & System Health (NFR-REL-01)
             </h2>
           </div>
-          <p className="text-xs text-[#64748B] mt-0.5 font-mono">
+          <p className="text-[11px] sm:text-xs text-[#64748B] mt-0.5 font-mono">
             Model Serving Infrastructure • Population Stability Index Drift Tracking • Graceful Degradation Toggles
           </p>
         </div>
 
         {/* Fallback Mode Toggle */}
-        <div className="flex items-center gap-3">
-          <div className="text-right">
-            <span className="text-[11px] font-mono text-[#64748B] block">Model Serving Pipeline</span>
-            <span className={`font-mono font-bold text-xs ${fallbackActive ? "text-[#DC2626]" : "text-[#059669]"}`}>
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full md:w-auto justify-between md:justify-end">
+          <div className="text-left md:text-right">
+            <span className="text-[10px] sm:text-[11px] font-mono text-[#64748B] block">Model Serving Pipeline</span>
+            <span className={`font-mono font-bold text-[11px] sm:text-xs ${fallbackActive ? "text-[#DC2626]" : "text-[#059669]"}`}>
               {fallbackActive ? "FALLBACK: Kinematic WTT Physics" : "PRIMARY: GPU RSTGCN + LightGBM"}
             </span>
           </div>
@@ -66,7 +66,7 @@ export const MlopsDiagnosticsView: React.FC<MlopsDiagnosticsViewProps> = ({
                 : "bg-[#0F3875] border-[#1E5AA8] text-white hover:bg-[#1E5AA8]"
             }`}
           >
-            {fallbackActive ? "Restore ML Inference Engine" : "Simulate ML Server Outage (Fallback)"}
+            {fallbackActive ? "Restore ML Engine" : "Simulate ML Outage (Fallback)"}
           </button>
         </div>
       </div>

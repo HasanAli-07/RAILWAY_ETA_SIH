@@ -63,40 +63,40 @@ export const ControllerDeskView: React.FC<ControllerDeskViewProps> = ({
   const selectedTrain = trains.find((t) => t.id === selectedTrainId) || trains[0];
 
   return (
-    <div className="flex-1 flex flex-col p-2 md:p-4 max-w-[1920px] mx-auto w-full h-[calc(100vh-3.5rem)] overflow-hidden">
+    <div className="flex-1 flex flex-col p-2 sm:p-3 md:p-4 max-w-[1920px] mx-auto w-full min-h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-3.5rem)] overflow-y-auto lg:overflow-hidden">
       {/* Mobile Tab Switcher (Visible on < 1024px viewports) */}
-      <div className="lg:hidden flex items-center gap-1 mb-2 bg-[#E2E8F0] p-1 rounded-[6px] text-xs font-mono">
+      <div className="lg:hidden flex items-center gap-1 mb-2 bg-[#E2E8F0] p-1 rounded-[8px] text-xs font-mono shrink-0 shadow-inner">
         <button
           onClick={() => setMobileTab("CHART")}
-          className={`flex-1 py-1.5 rounded text-center font-bold transition-all ${
-            mobileTab === "CHART" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569]"
+          className={`flex-1 py-2 rounded-[6px] text-center font-bold transition-all flex items-center justify-center gap-1 ${
+            mobileTab === "CHART" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569] hover:bg-white/50"
           }`}
         >
-          📊 String Chart
+          <span>📊 String Chart</span>
         </button>
         <button
           onClick={() => setMobileTab("ROSTER")}
-          className={`flex-1 py-1.5 rounded text-center font-bold transition-all ${
-            mobileTab === "ROSTER" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569]"
+          className={`flex-1 py-2 rounded-[6px] text-center font-bold transition-all flex items-center justify-center gap-1 ${
+            mobileTab === "ROSTER" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569] hover:bg-white/50"
           }`}
         >
-          🚆 Train Roster ({trains.length})
+          <span>🚆 Roster ({trains.length})</span>
         </button>
         <button
           onClick={() => setMobileTab("INSPECTOR")}
-          className={`flex-1 py-1.5 rounded text-center font-bold transition-all ${
-            mobileTab === "INSPECTOR" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569]"
+          className={`flex-1 py-2 rounded-[6px] text-center font-bold transition-all flex items-center justify-center gap-1 ${
+            mobileTab === "INSPECTOR" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569] hover:bg-white/50"
           }`}
         >
-          📋 Inspector
+          <span>📋 Telemetry</span>
         </button>
       </div>
 
       {/* Main 3-Pane / Responsive Stack */}
-      <div className="flex-1 flex flex-col lg:flex-row gap-3 md:gap-4 min-h-0 overflow-hidden">
+      <div className="flex-1 flex flex-col lg:flex-row gap-3 md:gap-4 min-h-0 overflow-y-auto lg:overflow-hidden">
         {/* LEFT PANE: Train Roster & Filters */}
         <div
-          className={`w-full lg:w-[320px] flex flex-col bg-white border border-[#E2E8F0] rounded-[8px] overflow-hidden shadow-sm shrink-0 ${
+          className={`w-full lg:w-[320px] flex flex-col bg-white border border-[#E2E8F0] rounded-[8px] overflow-hidden shadow-sm shrink-0 min-h-[350px] lg:min-h-0 ${
             mobileTab !== "ROSTER" ? "hidden lg:flex" : "flex"
           }`}
         >

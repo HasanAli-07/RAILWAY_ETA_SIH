@@ -38,14 +38,14 @@ export const ConformalIntervalBar: React.FC<ConformalIntervalBarProps> = ({
 
       {/* Accessible Subtext Labels */}
       {showLabels && (
-        <div className="flex items-center justify-between text-xs text-[#475569]">
-          <div className="flex items-center gap-1">
+        <div className="flex flex-wrap items-center justify-between gap-1 text-[11px] sm:text-xs text-[#475569]">
+          <div className="flex items-center gap-1 shrink-0">
             <ShieldCheck className="w-3.5 h-3.5 text-[#1E5AA8]" />
             <span className="font-medium text-[#0F172A]">
               Median ETA: <span className="font-mono font-bold text-[#0F3875]">{medianEta}</span>
             </span>
           </div>
-          <span className="font-mono text-[11px] text-[#64748B]">
+          <span className="font-mono text-[10px] sm:text-[11px] text-[#64748B] truncate">
             Range: {lowerEta} – {upperEta} ({coveragePct}% verified ±{marginMinutes}m)
           </span>
         </div>

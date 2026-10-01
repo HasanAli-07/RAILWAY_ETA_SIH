@@ -53,13 +53,13 @@ export const PassengerAppView: React.FC<PassengerAppViewProps> = ({
     selectedTrain.stoppages[selectedTrain.stoppages.length - 1];
 
   return (
-    <div className="flex-1 bg-[#F8FAFC] p-4 md:p-6 flex flex-col items-center justify-start overflow-y-auto">
+    <div className="flex-1 bg-[#F8FAFC] p-3 sm:p-4 md:p-6 flex flex-col items-center justify-start overflow-y-auto min-h-[calc(100vh-3.5rem)]">
       {/* Top Banner / Passenger Welcome */}
-      <div className="w-full max-w-2xl mb-6 text-center space-y-2">
-        <h2 className="font-outfit font-extrabold text-2xl md:text-3xl text-[#0F3875] tracking-tight">
+      <div className="w-full max-w-2xl mb-4 sm:mb-6 text-center space-y-1.5">
+        <h2 className="font-outfit font-extrabold text-xl sm:text-2xl md:text-3xl text-[#0F3875] tracking-tight">
           Indian Railways Passenger Live Tracking Portal
         </h2>
-        <p className="text-xs md:text-sm text-[#475569] font-sans">
+        <p className="text-xs sm:text-sm text-[#475569] font-sans">
           Real-time ISRO RTIS Satellite Positional Telemetry & AI Bounded Arrival Windows
         </p>
 
@@ -71,11 +71,11 @@ export const PassengerAppView: React.FC<PassengerAppViewProps> = ({
             placeholder="Enter Train Number (e.g. 12952) or Train Name..."
             value={passengerSearch}
             onChange={(e) => setPassengerSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#CBD5E1] rounded-[10px] text-sm font-mono text-[#0F172A] shadow-sm focus:outline-none focus:border-[#1E5AA8] focus:ring-2 focus:ring-[#1E5AA8]/20 transition-all"
+            className="w-full pl-10 pr-4 py-2 sm:py-2.5 bg-white border border-[#CBD5E1] rounded-[10px] text-xs sm:text-sm font-mono text-[#0F172A] shadow-sm focus:outline-none focus:border-[#1E5AA8] focus:ring-2 focus:ring-[#1E5AA8]/20 transition-all"
           />
 
           {passengerSearch && (
-            <div className="absolute left-0 right-0 top-14 bg-white border border-[#E2E8F0] rounded-[10px] shadow-xl z-30 max-h-48 overflow-y-auto text-left divide-y divide-[#E2E8F0]">
+            <div className="absolute left-0 right-0 top-14 bg-white border border-[#E2E8F0] rounded-[10px] shadow-xl z-40 max-h-48 overflow-y-auto text-left divide-y divide-[#E2E8F0]">
               {filteredTrains.map((t) => (
                 <div
                   key={t.id}
@@ -87,7 +87,7 @@ export const PassengerAppView: React.FC<PassengerAppViewProps> = ({
                 >
                   <div>
                     <span className="font-mono font-bold text-sm text-[#0F3875]">{t.number}</span>
-                    <span className="text-xs text-[#334155] ml-2">{t.name}</span>
+                    <span className="text-xs text-[#334155] ml-2 truncate max-w-[140px] sm:max-w-none inline-block">{t.name}</span>
                   </div>
                   <DelayStatusBadge delayMinutes={t.currentDelayMinutes} size="sm" />
                 </div>
@@ -100,20 +100,20 @@ export const PassengerAppView: React.FC<PassengerAppViewProps> = ({
       {/* Mobile / Web Passenger Journey Card Container */}
       <div className="w-full max-w-xl bg-white border border-[#E2E8F0] rounded-[16px] overflow-hidden shadow-xl flex flex-col mb-8">
         {/* Header Bar */}
-        <div className="bg-[#0F3875] text-white p-4 flex items-center justify-between border-b border-[#1E5AA8]">
-          <div className="flex items-center gap-2.5">
+        <div className="bg-[#0F3875] text-white p-3.5 sm:p-4 flex items-center justify-between border-b border-[#1E5AA8]">
+          <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
             <img
               src="/railvista-logo.svg"
               alt="RAILVISTA Logo"
-              className="w-7 h-7 rounded-full bg-white/10 border border-white/20 p-0.5 object-contain"
+              className="w-7 h-7 rounded-full bg-white/10 border border-white/20 p-0.5 object-contain shrink-0"
             />
-            <span className="font-outfit font-bold text-sm tracking-wide text-white">
+            <span className="font-outfit font-bold text-xs sm:text-sm tracking-wide text-white truncate">
               {selectedTrain.number} - {selectedTrain.name}
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-mono">
-            <span className="bg-white/10 px-2.5 py-1 rounded text-xs flex items-center gap-1 font-medium">
+          <div className="flex items-center gap-2 text-xs font-mono shrink-0">
+            <span className="bg-white/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[11px] sm:text-xs flex items-center gap-1 font-medium">
               <Calendar className="w-3.5 h-3.5 text-[#60A5FA]" />
               28-Sep-2026
             </span>
@@ -121,16 +121,16 @@ export const PassengerAppView: React.FC<PassengerAppViewProps> = ({
         </div>
 
         {/* Hero Status Card */}
-        <div className="p-5 bg-gradient-to-b from-[#F8FAFC] to-white border-b border-[#E2E8F0] space-y-4">
+        <div className="p-4 sm:p-5 bg-gradient-to-b from-[#F8FAFC] to-white border-b border-[#E2E8F0] space-y-3.5">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <div className="flex items-center gap-2">
-                <span className="font-mono font-extrabold text-2xl text-[#0F172A]">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-mono font-extrabold text-xl sm:text-2xl text-[#0F172A]">
                   {selectedTrain.number}
                 </span>
                 <ServiceClassPill category={selectedTrain.category} />
               </div>
-              <h3 className="text-base font-outfit font-bold text-[#334155] mt-0.5">
+              <h3 className="text-sm sm:text-base font-outfit font-bold text-[#334155] mt-0.5 truncate max-w-[220px] sm:max-w-none">
                 {selectedTrain.name}
               </h3>
               <p className="text-xs text-[#64748B] font-mono mt-0.5">

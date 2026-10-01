@@ -65,23 +65,23 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
         {/* Top Application Bar */}
         <div className="max-w-[1920px] mx-auto px-3 md:px-4 h-14 flex items-center justify-between">
           {/* Left Branding */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
             <img
               src="/railvista-logo.svg"
               alt="RAILVISTA Logo"
-              className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/10 border border-white/20 p-0.5 object-contain shadow-sm shrink-0"
+              className="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-white/10 border border-white/20 p-0.5 object-contain shadow-sm shrink-0"
             />
 
-            <div>
-              <div className="flex items-center gap-1.5 md:gap-2">
-                <h1 className="font-outfit font-extrabold text-sm md:text-base tracking-wide text-white">
-                  RAILVISTA <span className="font-normal text-white/70 text-xs md:text-sm hidden xs:inline">| Indian Railways</span>
+            <div className="min-w-0">
+              <div className="flex items-center gap-1 sm:gap-1.5">
+                <h1 className="font-outfit font-extrabold text-xs sm:text-base tracking-wide text-white truncate">
+                  RAILVISTA <span className="font-normal text-white/70 text-[11px] sm:text-sm hidden sm:inline">| Indian Railways</span>
                 </h1>
-                <span className="bg-[#1E5AA8] text-white/90 text-[9px] md:text-[10px] font-mono px-1.5 py-0.5 rounded uppercase font-bold">
+                <span className="bg-[#1E5AA8] text-white/90 text-[8px] sm:text-[10px] font-mono px-1 py-0.5 rounded uppercase font-bold shrink-0">
                   SIH-2026
                 </span>
               </div>
-              <p className="text-[10px] md:text-[11px] text-blue-200/80 font-mono truncate max-w-[160px] xs:max-w-[220px] sm:max-w-none">
+              <p className="text-[9px] sm:text-[11px] text-blue-200/80 font-mono truncate max-w-[130px] sm:max-w-none">
                 Corridor: {activeCorridor}
               </p>
             </div>

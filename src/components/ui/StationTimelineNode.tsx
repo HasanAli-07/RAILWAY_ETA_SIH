@@ -56,21 +56,21 @@ export const StationTimelineNode: React.FC<StationTimelineNodeProps> = ({
       </div>
 
       {/* Content Block */}
-      <div className="flex-1 flex items-center justify-between bg-white border border-[#E2E8F0] p-3 rounded-[8px] hover:border-[#CBD5E1] transition-all">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="font-mono font-bold text-[#0F172A] text-sm">
+      <div className="flex-1 flex flex-row items-center justify-between bg-white border border-[#E2E8F0] p-2.5 sm:p-3 rounded-[8px] hover:border-[#CBD5E1] transition-all gap-2">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            <span className="font-mono font-bold text-[#0F172A] text-xs sm:text-sm">
               {stationCode}
             </span>
-            <span className="text-sm font-medium text-[#475569]">
+            <span className="text-xs sm:text-sm font-medium text-[#475569] truncate">
               {stationName}
             </span>
-            <span className="text-[11px] font-mono text-[#94A3B8] bg-[#F1F5F9] px-1.5 py-0.5 rounded">
+            <span className="text-[10px] sm:text-[11px] font-mono text-[#94A3B8] bg-[#F1F5F9] px-1.5 py-0.5 rounded shrink-0">
               {distanceKm} KM
             </span>
           </div>
 
-          <div className="text-xs text-[#64748B] mt-0.5 flex items-center gap-2">
+          <div className="text-[11px] sm:text-xs text-[#64748B] mt-0.5 flex items-center gap-1.5">
             <span>{platform}</span>
             <span>•</span>
             <span className="font-mono">STA: {scheduledTime}</span>
@@ -78,16 +78,16 @@ export const StationTimelineNode: React.FC<StationTimelineNodeProps> = ({
         </div>
 
         {/* ETA & Delay Badge */}
-        <div className="text-right flex flex-col items-end">
-          <div className="font-mono font-bold text-sm text-[#0F3875]">
+        <div className="text-right flex flex-col items-end shrink-0">
+          <div className="font-mono font-bold text-xs sm:text-sm text-[#0F3875]">
             {actualOrPredictedTime}
           </div>
           {delayMinutes > 0 ? (
-            <span className="text-[11px] font-mono text-[#D97706]">
+            <span className="text-[10px] sm:text-[11px] font-mono text-[#D97706]">
               +{delayMinutes}m delay
             </span>
           ) : (
-            <span className="text-[11px] font-mono text-[#059669]">
+            <span className="text-[10px] sm:text-[11px] font-mono text-[#059669]">
               On Time
             </span>
           )}

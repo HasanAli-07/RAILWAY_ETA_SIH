@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { TrainService, StationNode } from "@/lib/simulation/railwayData";
 import { TimeDistanceChart } from "@/components/charts/TimeDistanceChart";
+import { CorridorMap } from "@/components/maps/CorridorMap";
 import { DelayStatusBadge } from "@/components/ui/DelayStatusBadge";
 import { ServiceClassPill } from "@/components/ui/ServiceClassPill";
 import { ConformalIntervalBar } from "@/components/ui/ConformalIntervalBar";
@@ -19,6 +20,8 @@ import {
   LayoutDashboard,
   Info,
   List,
+  MapPin,
+  Navigation,
 } from "lucide-react";
 
 interface ControllerDeskViewProps {
@@ -40,7 +43,8 @@ export const ControllerDeskView: React.FC<ControllerDeskViewProps> = ({
 }) => {
   const [filterCategory, setFilterCategory] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [mobileTab, setMobileTab] = useState<"CHART" | "ROSTER" | "INSPECTOR">("CHART");
+  const [mobileTab, setMobileTab] = useState<"CHART" | "MAP" | "ROSTER" | "INSPECTOR">("CHART");
+  const [centerViewMode, setCenterViewMode] = useState<"CHART" | "MAP">("CHART");
 
   const filteredTrains = trains.filter((t) => {
     const matchesSearch =
@@ -67,24 +71,41 @@ export const ControllerDeskView: React.FC<ControllerDeskViewProps> = ({
       {/* Mobile Tab Switcher (Visible on < 1024px viewports) */}
       <div className="lg:hidden flex items-center gap-1 mb-2 bg-[#E2E8F0] p-1 rounded-[8px] text-xs font-mono shrink-0 shadow-inner">
         <button
-          onClick={() => setMobileTab("CHART")}
-          className={`flex-1 py-2 rounded-[6px] text-center font-bold transition-all flex items-center justify-center gap-1 ${
+          onClick={() => {
+            setMobileTab("CHART");
+            setCenterViewMode("CHART");
+          }}
+          className={`flex-1 py-1.5 rounded-[6px] text-center font-bold transition-all flex items-center justify-center gap-1 ${
             mobileTab === "CHART" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569] hover:bg-white/50"
           }`}
         >
           <span>📊 String Chart</span>
         </button>
+
+        <button
+          onClick={() => {
+            setMobileTab("MAP");
+            setCenterViewMode("MAP");
+          }}
+          className={`flex-1 py-1.5 rounded-[6px] text-center font-bold transition-all flex items-center justify-center gap-1 ${
+            mobileTab === "MAP" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569] hover:bg-white/50"
+          }`}
+        >
+          <span>🗺️ GIS Map</span>
+        </button>
+
         <button
           onClick={() => setMobileTab("ROSTER")}
-          className={`flex-1 py-2 rounded-[6px] text-center font-bold transition-all flex items-center justify-center gap-1 ${
+          className={`flex-1 py-1.5 rounded-[6px] text-center font-bold transition-all flex items-center justify-center gap-1 ${
             mobileTab === "ROSTER" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569] hover:bg-white/50"
           }`}
         >
           <span>🚆 Roster ({trains.length})</span>
         </button>
+
         <button
           onClick={() => setMobileTab("INSPECTOR")}
-          className={`flex-1 py-2 rounded-[6px] text-center font-bold transition-all flex items-center justify-center gap-1 ${
+          className={`flex-1 py-1.5 rounded-[6px] text-center font-bold transition-all flex items-center justify-center gap-1 ${
             mobileTab === "INSPECTOR" ? "bg-[#0F3875] text-white shadow-sm" : "text-[#475569] hover:bg-white/50"
           }`}
         >
@@ -198,20 +219,65 @@ export const ControllerDeskView: React.FC<ControllerDeskViewProps> = ({
           </div>
         </div>
 
-        {/* CENTER PANE: Dynamic String Chart */}
+        {/* CENTER PANE: Dynamic String Chart vs GIS Live Map */}
         <div
           className={`flex-1 min-w-0 flex-col h-full ${
-            mobileTab !== "CHART" ? "hidden lg:flex" : "flex"
+            mobileTab !== "CHART" && mobileTab !== "MAP" ? "hidden lg:flex" : "flex"
           }`}
         >
-          <TimeDistanceChart
-            trains={trains}
-            stations={stations}
-            selectedTrainId={selectedTrain?.id || null}
-            onSelectTrain={onSelectTrain}
-            activeDisruption={activeDisruption}
-            onTriggerDisruption={onTriggerDisruption}
-          />
+          {/* Desktop Subnav Mode Switcher Bar */}
+          <div className="hidden lg:flex items-center justify-between mb-2 bg-[#F1F5F9] p-1.5 rounded-[8px] border border-[#CBD5E1] shrink-0">
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-xs font-bold text-[#0F172A] uppercase px-2">
+                Center Console Mode:
+              </span>
+              <button
+                onClick={() => setCenterViewMode("CHART")}
+                className={`px-3 py-1 rounded-[6px] text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
+                  centerViewMode === "CHART"
+                    ? "bg-[#0F3875] text-white shadow-sm"
+                    : "bg-white text-[#475569] hover:bg-[#F8FAFC] border border-[#CBD5E1]"
+                }`}
+              >
+                <span>📊 60 FPS String Chart</span>
+              </button>
+
+              <button
+                onClick={() => setCenterViewMode("MAP")}
+                className={`px-3 py-1 rounded-[6px] text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
+                  centerViewMode === "MAP"
+                    ? "bg-[#0F3875] text-white shadow-sm"
+                    : "bg-white text-[#475569] hover:bg-[#F8FAFC] border border-[#CBD5E1]"
+                }`}
+              >
+                <span>🗺️ Live GIS Leaflet Map</span>
+              </button>
+            </div>
+
+            <span className="text-[11px] font-mono text-[#64748B]">
+              NDLS - HWH Trunk Line Telemetry Feed Active
+            </span>
+          </div>
+
+          {/* Conditional View Rendering */}
+          {centerViewMode === "CHART" && mobileTab !== "MAP" ? (
+            <TimeDistanceChart
+              trains={trains}
+              stations={stations}
+              selectedTrainId={selectedTrain?.id || null}
+              onSelectTrain={onSelectTrain}
+              activeDisruption={activeDisruption}
+              onTriggerDisruption={onTriggerDisruption}
+            />
+          ) : (
+            <CorridorMap
+              trains={trains}
+              stations={stations}
+              selectedTrainId={selectedTrain?.id || null}
+              onSelectTrain={onSelectTrain}
+              activeDisruption={activeDisruption}
+            />
+          )}
         </div>
 
         {/* RIGHT PANE: Selected Train Telemetry Inspector */}

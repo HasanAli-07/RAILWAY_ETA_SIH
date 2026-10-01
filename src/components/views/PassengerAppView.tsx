@@ -24,6 +24,8 @@ import {
   ArrowRight,
 } from "lucide-react";
 
+import { CorridorMap } from "@/components/maps/CorridorMap";
+
 interface PassengerAppViewProps {
   trains: TrainService[];
   stations: StationNode[];
@@ -38,6 +40,7 @@ export const PassengerAppView: React.FC<PassengerAppViewProps> = ({
   onSelectTrain,
 }) => {
   const [showExplanation, setShowExplanation] = useState<boolean>(false);
+  const [showLiveMap, setShowLiveMap] = useState<boolean>(false);
   const [passengerSearch, setPassengerSearch] = useState<string>("");
 
   const selectedTrain = trains.find((t) => t.id === selectedTrainId) || trains[0];
@@ -179,11 +182,31 @@ export const PassengerAppView: React.FC<PassengerAppViewProps> = ({
               fixQuality={selectedTrain.gaganFixQuality}
               lastSyncSec={selectedTrain.lastSyncSecAgo}
             />
-            <span className="font-mono text-xs text-[#475569]">
-              Speed: <span className="font-bold text-[#0F172A] text-sm">{selectedTrain.currentSpeedKmh} km/h</span>
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-xs text-[#475569]">
+                Speed: <span className="font-bold text-[#0F172A] text-sm">{selectedTrain.currentSpeedKmh} km/h</span>
+              </span>
+              <button
+                onClick={() => setShowLiveMap(!showLiveMap)}
+                className="font-mono text-[11px] font-bold text-[#0F3875] bg-[#EFF6FF] px-2.5 py-1 rounded border border-[#BFDBFE] hover:bg-[#DBEAFE] transition-all"
+              >
+                {showLiveMap ? "Hide Map" : "🗺️ Live Map"}
+              </button>
+            </div>
           </div>
         </div>
+
+        {/* Interactive Leaflet GIS Map Drawer */}
+        {showLiveMap && (
+          <div className="p-3 bg-[#F8FAFC] border-b border-[#E2E8F0] h-[360px] animate-fadeIn">
+            <CorridorMap
+              trains={trains}
+              stations={stations}
+              selectedTrainId={selectedTrain.id}
+              onSelectTrain={onSelectTrain}
+            />
+          </div>
+        )}
 
         {/* Friendly Delay Explanation Drawer Toggle */}
         <div className="px-5 py-3 bg-[#EFF6FF] border-b border-[#BFDBFE] flex items-center justify-between text-xs text-[#1E40AF]">

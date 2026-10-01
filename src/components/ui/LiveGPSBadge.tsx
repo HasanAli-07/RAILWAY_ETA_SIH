@@ -16,7 +16,7 @@ export const LiveGPSBadge: React.FC<LiveGPSBadgeProps> = ({
 }) => {
   return (
     <div
-      className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-[4px] border border-solid text-xs font-mono transition-all ${
+      className={`inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-2.5 py-1 rounded-[4px] border border-solid text-[11px] sm:text-xs font-mono transition-all whitespace-nowrap shrink-0 ${
         isLive
           ? "bg-[#EFF6FF] border-[#BFDBFE] text-[#1E40AF]"
           : "bg-[#FFF7ED] border-[#FED7AA] text-[#9A3412]"

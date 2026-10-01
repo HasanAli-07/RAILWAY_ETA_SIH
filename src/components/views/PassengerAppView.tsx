@@ -101,8 +101,12 @@ export const PassengerAppView: React.FC<PassengerAppViewProps> = ({
       <div className="w-full max-w-xl bg-white border border-[#E2E8F0] rounded-[16px] overflow-hidden shadow-xl flex flex-col mb-8">
         {/* Header Bar */}
         <div className="bg-[#0F3875] text-white p-4 flex items-center justify-between border-b border-[#1E5AA8]">
-          <div className="flex items-center gap-2">
-            <Train className="w-5 h-5 text-[#60A5FA]" />
+          <div className="flex items-center gap-2.5">
+            <img
+              src="/railvista-logo.svg"
+              alt="RAILVISTA Logo"
+              className="w-7 h-7 rounded-full bg-white/10 border border-white/20 p-0.5 object-contain"
+            />
             <span className="font-outfit font-bold text-sm tracking-wide text-white">
               {selectedTrain.number} - {selectedTrain.name}
             </span>

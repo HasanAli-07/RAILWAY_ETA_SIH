@@ -30,9 +30,11 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
         {/* Modal Header */}
         <div className="bg-[#0F3875] text-white p-5 flex items-center justify-between border-b border-[#1E5AA8]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
-              <Lock className="w-5 h-5 text-[#60A5FA]" />
-            </div>
+            <img
+              src="/railvista-logo.svg"
+              alt="RAILVISTA Logo"
+              className="w-10 h-10 rounded-full bg-white/10 border border-white/20 p-0.5 object-contain shadow-sm shrink-0"
+            />
             <div>
               <h2 className="font-outfit font-bold text-lg text-white">
                 Select Operational Role / Login Portal

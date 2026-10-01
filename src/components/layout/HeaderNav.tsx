@@ -66,9 +66,11 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
         <div className="max-w-[1920px] mx-auto px-3 md:px-4 h-14 flex items-center justify-between">
           {/* Left Branding */}
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center font-bold text-lg text-white shrink-0">
-              <Train className="w-4 h-4 md:w-5 md:h-5 text-[#60A5FA]" />
-            </div>
+            <img
+              src="/railvista-logo.svg"
+              alt="RAILVISTA Logo"
+              className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/10 border border-white/20 p-0.5 object-contain shadow-sm shrink-0"
+            />
 
             <div>
               <div className="flex items-center gap-1.5 md:gap-2">

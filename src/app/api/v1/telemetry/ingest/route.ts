@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { LiveTelemetryPacket } from "@/lib/engine/types";
 import { mapMatchTelemetryToTrack } from "@/lib/engine/mapMatching";
 import { TRUNK_STATIONS } from "@/lib/simulation/railwayData";
+import { verifyJwtToken, extractTokenFromHeaderOrCookie } from "@/lib/auth/jwt";
 
 export async function POST(req: NextRequest) {
   const startTime = performance.now();
+
+  // JWT Token Authorization (SRS NFR-SEC-01)
+  const token = extractTokenFromHeaderOrCookie(req);
+  const jwtUser = token ? await verifyJwtToken(token) : null;
 
   try {
     const body: LiveTelemetryPacket = await req.json();

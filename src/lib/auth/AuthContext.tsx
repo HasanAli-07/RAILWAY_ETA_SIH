@@ -52,50 +52,94 @@ export const PRESET_USERS: Record<UserRole, UserSession> = {
 
 interface AuthContextType {
   user: UserSession | null;
+  jwtToken: string | null;
   isAuthenticated: boolean;
-  loginAsRole: (role: UserRole) => void;
-  logout: () => void;
+  loginAsRole: (role: UserRole) => Promise<void>;
+  logout: () => Promise<void>;
   showLoginModal: boolean;
   setShowLoginModal: (show: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: PRESET_USERS.PASSENGER,
+  jwtToken: null,
   isAuthenticated: true,
-  loginAsRole: () => {},
-  logout: () => {},
+  loginAsRole: async () => {},
+  logout: async () => {},
   showLoginModal: false,
   setShowLoginModal: () => {},
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserSession | null>(PRESET_USERS.PASSENGER);
+  const [jwtToken, setJwtToken] = useState<string | null>(null);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
 
   useEffect(() => {
-    // Load persisted session
-    const saved = localStorage.getItem("railvista_user_session");
-    if (saved) {
+    // Check session status on mount via JWT auth/me route
+    const initAuth = async () => {
       try {
-        const parsed = JSON.parse(saved);
-        if (parsed && parsed.role) {
-          setUser(parsed);
+        const res = await fetch("/api/v1/auth/me");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.authenticated && data.user) {
+            setUser(data.user);
+          }
         }
       } catch (e) {
-        // ignore
+        // Fallback to local storage
+        const savedToken = localStorage.getItem("railvista_jwt_token");
+        const savedUser = localStorage.getItem("railvista_user_session");
+        if (savedToken && savedUser) {
+          try {
+            setJwtToken(savedToken);
+            setUser(JSON.parse(savedUser));
+          } catch (err) {}
+        }
       }
-    }
+    };
+
+    initAuth();
   }, []);
 
-  const loginAsRole = (role: UserRole) => {
+  const loginAsRole = async (role: UserRole) => {
+    try {
+      const res = await fetch("/api/v1/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.user) {
+          setUser(data.user);
+          setJwtToken(data.token);
+          localStorage.setItem("railvista_jwt_token", data.token);
+          localStorage.setItem("railvista_user_session", JSON.stringify(data.user));
+          setShowLoginModal(false);
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("JWT Login endpoint offline, using local session state", e);
+    }
+
+    // Fallback local session state
     const session = PRESET_USERS[role];
     setUser(session);
     localStorage.setItem("railvista_user_session", JSON.stringify(session));
     setShowLoginModal(false);
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await fetch("/api/v1/auth/logout", { method: "POST" });
+    } catch (e) {}
+
     setUser(PRESET_USERS.PASSENGER); // Reset to public passenger view
+    setJwtToken(null);
+    localStorage.removeItem("railvista_jwt_token");
     localStorage.removeItem("railvista_user_session");
     setShowLoginModal(true);
   };
@@ -104,6 +148,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     <AuthContext.Provider
       value={{
         user,
+        jwtToken,
         isAuthenticated: !!user,
         loginAsRole,
         logout,
